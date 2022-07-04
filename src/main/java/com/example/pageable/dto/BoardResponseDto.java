@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class BoardResponseDto {
 
     private final Long id;
+    private final String userName;
     private final String boardTitle;
     private final String boardContent;
     private final LocalDateTime createdAt;
@@ -20,6 +21,7 @@ public class BoardResponseDto {
         return BoardResponseDto
                 .builder()
                 .id(board.getId())
+                .userName(board.getUser().getUserName())
                 .boardTitle(board.getBoardTitle())
                 .boardContent(board.getBoardContents())
                 .createdAt(board.getCreatedAt())

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 import static com.example.pageable.entity.User.createUser;
 
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class BoardService {
@@ -24,39 +24,31 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
 
-//    @PostConstruct
-//    public void initializing() {
-//        for (int i = 0; i < 50; i++) {
-//            User user = User.builder()
-//                    .userName("gogo" + i )
-//                    .userEmail("gogo@gogo" + i)
-//                    .createdAt(LocalDateTime.now())
-//                    .updatedAt(LocalDateTime.now())
-//                    .build();
-//            userRepository.save(user);
-//        }
-//    }
 
     @PostConstruct
     public void init() {
-        User user = userRepository.save(
-                User.builder()
+                User user = userRepository.save(
+                        User.builder()
                         .userEmail("gogo@gogo@com")
-                        .userName("gogo")
+                        .userName("gogo+1")
+                        .userPhone("010-0000-0000")
                         .createdAt(LocalDateTime.now())
                         .updatedAt(LocalDateTime.now())
                         .build());
-        for (int i = 1; i <= 25; ++i) {
+        for (int i = 1; i < 5; i++) {
             boardRepository.save(
                     Board.builder()
+                            .user(user)
                             .boardTitle("제목" + i)
                             .boardContents("내용" + i)
-                            .user(user).build());
+                            .createdAt(LocalDateTime.now())
+                            .updatedAt(LocalDateTime.now())
+                            .build());
         }
     }
 
     public Page<BoardResponseDto> findAll(Pageable pageable) {
-        return boardRepository.findByBoardIdDesc(createUser(), pageable)
+        return boardRepository.findByUserOrderByIdDesc(createUser(), pageable)
                 .map(BoardResponseDto::from);
     }
 

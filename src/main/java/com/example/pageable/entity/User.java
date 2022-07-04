@@ -32,6 +32,7 @@ public class User {
 
     public static User createUser() {
         return User.builder()
+                .id(1L)
                 .userName("go")
                 .userEmail("gogo@gogo.com")
                 .userPhone("010-0000-0000")
